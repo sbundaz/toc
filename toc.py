@@ -15,15 +15,18 @@ def create_toc_row(line: str) -> str:
     toc_row = f"{'\t'*(hashes-1)}- [{line_content}](#{anchor})"
     return toc_row
 
-def main():
-    path = Path(Path(__file__).parent, "source.md")
+def main(path):
     lines = []
     tocs = []
     init_toc_position = -1
     end_toc_position = -1
 
-    with open(path, "rt") as f:
-        lines = f.read().splitlines()
+    try:
+        with open(path, "rt") as f:
+            lines = f.read().splitlines()
+    except (IOError, PermissionError) as e:
+        print(f"Error while reading {path}: {e}", file=sys.stderr)
+        sys.exit(1)
 
     for i, line in enumerate(lines):
         if "<!-- init-toc -->" in line:
@@ -40,14 +43,31 @@ def main():
     lines_before_tocs = lines[:init_toc_position+1]
     lines_after_tocs = lines[end_toc_position:]
     new_lines = lines_before_tocs + tocs + lines_after_tocs
-    print("#===== line before tocs")
-    for l in new_lines:
-        print(l)
 
-    with open(path, "w") as f:
-        for l in new_lines:
-            f.write(l+"\n")
+    try:
+        with open(path, "w") as f:
+            for l in new_lines:
+                f.write(l+"\n")
+    except (IOError, PermissionError) as e:
+        print(f"Error while writing {path}: {e}", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) < 2:
+        print("Select a file!", file=sys.stderr)
+        sys.exit(1)
+
+    parameter_path = sys.argv[1]
+    path = ""
+
+    if parameter_path.startswith("/"): # absolute path
+        path = Path(parameter_path)
+    else: # relative path
+        path = Path(Path(__file__).parent / parameter_path)
+
+    if not path.exists():
+        print(f"File {path} not found", file=sys.stderr)
+        sys.exit(1)
+
+    main(path)
