@@ -1,0 +1,32 @@
+[project]
+name = "toc"
+description = "Generate TOC for markdown files"
+version = "0.0.1"
+authors = [{ name = "Andrea Bondanini", email = "bondaniniandrea@gmail.com" }]
+requires-python = ">=3.11.9"
+
+[project.optional-dependencies]
+dev = ["pytest", "black"]
+
+[tool.setuptools]
+packages = ["toc"]
+
+[project.scripts]
+toc = "toc.main:main"
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+extend-exclude = '''
+  /(
+    # directories
+    \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | build
+    | dist
+  )/
+  '''

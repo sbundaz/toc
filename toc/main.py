@@ -18,7 +18,7 @@ def create_toc_row(line: str) -> str:
     return toc_row
 
 
-def main(path):
+def process_file(path):
     lines = []
     tocs = []
     init_toc_position = -1
@@ -61,22 +61,19 @@ def main(path):
         print(f"Error while writing {path}: {e}", file=sys.stderr)
         sys.exit(1)
 
-
-if __name__ == "__main__":
+def main():
     if len(sys.argv) < 2:
         print("Select a file!", file=sys.stderr)
         sys.exit(1)
 
     parameter_path = sys.argv[1]
-    path = ""
-
-    if parameter_path.startswith("/"):  # absolute path
-        path = Path(parameter_path)
-    else:  # relative path
-        path = Path(Path(__file__).parent / parameter_path)
+    path = Path(parameter_path).resolve()
 
     if not path.exists():
         print(f"File {path} not found", file=sys.stderr)
         sys.exit(1)
 
-    main(path)
+    process_file(path)
+
+if __name__ == "__main__":
+    main()
