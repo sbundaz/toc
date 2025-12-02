@@ -25,11 +25,27 @@ def create_anchor(line_content: str) -> str:
     return anchor.replace(" ", "-").lower()
 
 
+def toggle_ignore_rows_flag(ignore_rows: bool, line: str):
+    """
+    Controls whether to ignore rows inside code snippets that start with ```.
+    Also handles multiline snippets.
+    """
+    if line == "```":
+        return not ignore_rows
+    elif line.startswith("```") and not line.endswith("```"):
+        return True
+    elif line.startswith("```") and line.endswith("```"):
+        return False
+    else:
+        return ignore_rows
+
+
 def process_file(path):
     lines = []
     tocs = []
     init_toc_position = -1
     end_toc_position = -1
+    ignore_rows = False
 
     try:
         with open(path, "rt") as f:
@@ -39,6 +55,11 @@ def process_file(path):
         sys.exit(1)
 
     for i, line in enumerate(lines):
+        ignore_rows = toggle_ignore_rows_flag(ignore_rows, line)
+
+        if ignore_rows:
+            continue
+
         if "<!-- init-toc -->" in line:
             init_toc_position = i
         elif "<!-- end-toc -->" in line:
