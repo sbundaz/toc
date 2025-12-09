@@ -6,13 +6,16 @@ import sys
 INDENT_LEVEL = "    "
 
 
-def create_toc_row(line: str) -> str:
+def create_toc_row(line: str, max_depth: int = None) -> str:
     hashes = 0
     j = 0
 
     while line[j] == "#":
         hashes += 1
         j += 1
+
+    if max_depth and hashes > max_depth:
+        return None
 
     line_content = line[hashes + 1 :]
     anchor = create_anchor(line_content)
@@ -40,7 +43,7 @@ def toggle_ignore_rows_flag(ignore_rows: bool, line: str):
         return ignore_rows
 
 
-def process_file(path):
+def process_file(path, depth=None):
     lines = []
     tocs = []
     init_toc_position = -1
@@ -65,7 +68,9 @@ def process_file(path):
         elif "<!-- end-toc -->" in line:
             end_toc_position = i
         elif line.startswith("#"):
-            tocs.append(create_toc_row(line))
+            toc_row = create_toc_row(line, depth)
+            if toc_row:
+                tocs.append(toc_row)
 
     if (
         init_toc_position == -1
@@ -106,6 +111,9 @@ def main():
     )
 
     parser.add_argument("file", help="Markdown file to process")
+    parser.add_argument(
+        "--depth", type=int, help="Maximum header depth to include in TOC"
+    )
     parser.add_argument("--version", action="version", version="toc 1.0.1")
     args = parser.parse_args()
     path = Path(args.file).resolve()
@@ -114,7 +122,11 @@ def main():
         print(f"Error: File '{args.file}' not found", file=sys.stderr)
         sys.exit(1)
 
-    process_file(path)
+    if args.depth is not None and args.depth < 1:
+        print(f"Error: depth must be greater than 0", file=sys.stderr)
+        sys.exit(1)
+
+    process_file(path, args.depth)
 
 
 if __name__ == "__main__":

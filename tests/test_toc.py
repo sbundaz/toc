@@ -2,9 +2,7 @@ import shutil
 import subprocess
 import tempfile
 import pytest
-from toc.main import create_toc_row
-
-INDENT_LEVEL = "    "
+from toc.main import INDENT_LEVEL, create_toc_row
 
 
 def test_lorem_ipsum():
@@ -24,6 +22,43 @@ def test_lorem_ipsum():
             expected = f.read()
 
         assert actual == expected
+
+
+def test_lorem_ipsum_depth_2():
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".md") as tmp:
+        shutil.copy("tests/fixtures/lorem_ipsum_depth_2_input.md", tmp.name)
+
+        result = subprocess.run(
+            ["python3", "toc/main.py", tmp.name, "--depth", "2"],
+            capture_output=True,
+            text=True,
+        )
+
+        assert result.returncode == 0
+
+        with open(tmp.name) as f:
+            actual = f.read()
+
+        with open("tests/fixtures/lorem_ipsum_depth_2_output.md") as f:
+            expected = f.read()
+
+        assert actual == expected
+
+
+def test_lorem_ipsum_with_invalid_depth():
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".md") as tmp:
+        shutil.copy("tests/fixtures/lorem_ipsum_depth_2_input.md", tmp.name)
+
+        result = subprocess.run(
+            ["python3", "toc/main.py", tmp.name, "--depth", "0"],
+            capture_output=True,
+            text=True,
+        )
+
+        print(result)
+
+        assert result.returncode == 1
+        assert result.stderr == "Error: depth must be greater than 0\n"
 
 
 @pytest.mark.parametrize(
