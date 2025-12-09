@@ -1,4 +1,6 @@
 # tocs
+[![PyPI](https://img.shields.io/pypi/v/tocs)](https://pypi.org/project/tocs/)
+
 **tocs** is a simple CLI application written in Python that generates **the table of contents (TOC)** section for markdown files.<br>
 As a person who loves to write personal technical notes in markdown files, I needed something simple to use.
 
@@ -12,23 +14,12 @@ pip install tocs
 
 ### Basic usage:
 - `tocs input_file.md` - Generate TOC for the file
+- `tocs --depth 2 input_file.md` - Limit the TOC generation to headers up to a specified depth
 - `tocs --help` - Show usage instructions
 - `tocs --version` - Display version information
 
 ### tocs example
 Given the following markdown file **input_file.md**:
-```md
-# header 1
-Lorem ipsum dolor sit amet...
-
-## header 2
-Lorem ipsum dolor sit amet...
-
-### header 3
-Lorem ipsum dolor sit amet...
-```
-
-Add two tags where you want the TOCs table:
 ```md
 <!-- init-tocs -->
 <!-- end-tocs -->
