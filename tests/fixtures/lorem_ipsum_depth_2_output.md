@@ -1,8 +1,8 @@
-<!-- init-toc -->
+<!-- init-tocs -->
 - [Header 1](#header-1)
     - [Header 2](#header-2)
 - [Header 4](#header-4)
-<!-- end-toc -->
+<!-- end-tocs -->
 
 # Header 1
 Lorem ipsum dolor sit amet...

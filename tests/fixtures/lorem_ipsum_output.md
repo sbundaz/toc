@@ -1,4 +1,4 @@
-<!-- init-toc -->
+<!-- init-tocs -->
 - [Header 1](#header-1)
 - [Header 2](#header-2)
     - [Header 3](#header-3)
@@ -8,7 +8,7 @@
 - [Hello__World](#hello__world)
 - [Ignoring Comment](#ignoring-comment)
 - [Hello!?.:;'\"()[]{}@#$%^&*+=<>/\\|`~World](#helloworld)
-<!-- end-toc -->
+<!-- end-tocs -->
 
 # Header 1
 Lorem ipsum dolor sit amet...

@@ -2,7 +2,7 @@ import shutil
 import subprocess
 import tempfile
 import pytest
-from toc.main import INDENT_LEVEL, create_toc_row
+from tocs.main import INDENT_LEVEL, create_toc_row
 
 
 def test_lorem_ipsum():
@@ -10,7 +10,7 @@ def test_lorem_ipsum():
         shutil.copy("tests/fixtures/lorem_ipsum_input.md", tmp.name)
 
         result = subprocess.run(
-            ["python3", "toc/main.py", tmp.name], capture_output=True, text=True
+            ["python3", "tocs/main.py", tmp.name], capture_output=True, text=True
         )
 
         assert result.returncode == 0
@@ -29,7 +29,7 @@ def test_lorem_ipsum_depth_2():
         shutil.copy("tests/fixtures/lorem_ipsum_depth_2_input.md", tmp.name)
 
         result = subprocess.run(
-            ["python3", "toc/main.py", tmp.name, "--depth", "2"],
+            ["python3", "tocs/main.py", tmp.name, "--depth", "2"],
             capture_output=True,
             text=True,
         )
@@ -50,7 +50,7 @@ def test_lorem_ipsum_with_invalid_depth():
         shutil.copy("tests/fixtures/lorem_ipsum_depth_2_input.md", tmp.name)
 
         result = subprocess.run(
-            ["python3", "toc/main.py", tmp.name, "--depth", "0"],
+            ["python3", "tocs/main.py", tmp.name, "--depth", "0"],
             capture_output=True,
             text=True,
         )
@@ -74,13 +74,13 @@ def test_invalid_toc_configuration(fixture_file_name):
         shutil.copy(f"tests/fixtures/{fixture_file_name}", tmp.name)
 
         result = subprocess.run(
-            ["python3", "toc/main.py", tmp.name], capture_output=True, text=True
+            ["python3", "tocs/main.py", tmp.name], capture_output=True, text=True
         )
 
         assert result.returncode == 1
         assert (
             result.stderr
-            == "Error: Missing or invalid TOC markers. Add '<!-- init-toc -->' and '<!-- end-toc -->' to your file.\n"
+            == "Error: Missing or invalid TOC markers. Add '<!-- init-tocs -->' and '<!-- end-tocs -->' to your file.\n"
         )
 
 

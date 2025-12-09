@@ -1,5 +1,5 @@
 [project]
-name = "toc"
+name = "tocs"
 description = "Generate TOC for markdown files"
 authors = [{ name = "Andrea Bondanini", email = "bondaniniandrea@gmail.com" }]
 license = { text = "MIT" }
@@ -10,10 +10,10 @@ requires-python = ">=3.11.9"
 dev = ["pytest", "black"]
 
 [tool.setuptools]
-packages = ["toc"]
+packages = ["tocs"]
 
 [project.scripts]
-toc = "toc.main:main"
+tocs = "tocs.main:main"
 
 [tool.black]
 line-length = 88

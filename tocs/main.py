@@ -63,9 +63,9 @@ def process_file(path, depth=None):
         if ignore_rows:
             continue
 
-        if "<!-- init-toc -->" in line:
+        if "<!-- init-tocs -->" in line:
             init_toc_position = i
-        elif "<!-- end-toc -->" in line:
+        elif "<!-- end-tocs -->" in line:
             end_toc_position = i
         elif line.startswith("#"):
             toc_row = create_toc_row(line, depth)
@@ -78,7 +78,7 @@ def process_file(path, depth=None):
         or init_toc_position >= end_toc_position
     ):
         print(
-            f"Error: Missing or invalid TOC markers. Add '<!-- init-toc -->' and '<!-- end-toc -->' to your file.",
+            f"Error: Missing or invalid TOC markers. Add '<!-- init-tocs -->' and '<!-- end-tocs -->' to your file.",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -98,14 +98,14 @@ def process_file(path, depth=None):
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="toc",
+        prog="tocs",
         description="Generate table of contents for markdown files",
         epilog="""
   Examples:
-    toc /path/to/file.md                    Generate TOC in file.md
+    tocs /path/to/file.md                    Generate TOC in file.md
 
   Requirements:
-    The file must contain <!-- init-toc --> and <!-- end-toc --> markers.
+    The file must contain <!-- init-tocs --> and <!-- end-tocs --> markers.
   """,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -114,7 +114,7 @@ def main():
     parser.add_argument(
         "--depth", type=int, help="Maximum header depth to include in TOC"
     )
-    parser.add_argument("--version", action="version", version="toc 1.0.1")
+    parser.add_argument("--version", action="version", version="tocs 1.0.1")
     args = parser.parse_args()
     path = Path(args.file).resolve()
 

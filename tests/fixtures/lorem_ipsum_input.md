@@ -1,5 +1,5 @@
-<!-- init-toc -->
-<!-- end-toc -->
+<!-- init-tocs -->
+<!-- end-tocs -->
 
 # Header 1
 Lorem ipsum dolor sit amet...
