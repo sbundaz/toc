@@ -20,6 +20,7 @@ pip install --upgrade tocs
 ### Basic usage:
 - `tocs input_file.md` - Generate TOC for the file
 - `tocs --depth 2 input_file.md` - Limit the TOC generation to headers up to a specified depth
+- `tocs --dry-run input_file.md` - Preview TOC without modifying the file
 - `tocs --help` - Show usage instructions
 - `tocs --version` - Display version information
 
